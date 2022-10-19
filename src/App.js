@@ -4,8 +4,11 @@ import './App.css';
 class App extends Component {
   render() {
     return(
-      <div>
-        <p>Hi</p>
+      <div className="App">
+        {/* <Navigation />
+        <Logo />
+        <ImageLinkForm />
+        <FaceRecognition /> */}
       </div>
     )
   }
