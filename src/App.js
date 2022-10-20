@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ParticlesBg from 'particles-bg';
 import Clarifai from 'clarifai';
 import Navigation from './Components/Navigation/Navigation'
+import Signin from './Components/Signin/Signin'
 import Logo from './Components/Logo/Logo';
 import Rank from './Components/Rank/Rank';
 import ImageLinkForm from './Components/ImageLinkForm/ImageLinkForm';
@@ -21,6 +22,7 @@ class App extends Component {
       input: '',
       imageUrl: '',
       box: {},
+      route: 'signin'
     }
   }
 
@@ -53,17 +55,25 @@ class App extends Component {
       .catch(err => console.log(err));
     }
 
+    onRouteChange = (route) => {
+      this.setState({route: route});
+    }
+
   render() {
     return(
       <div className="App">
         <ParticlesBg color='#ffffff' num={50} type="cobweb" bg={true} />
-        <Navigation />
+        <Navigation onRouteChange={this.onRouteChange}/>
+        { this.state.route === 'signin' 
+        ? <Signin onRouteChange={this.onRouteChange}/>
+        : <div>
         <Logo />
         <Rank />
         <ImageLinkForm 
           onInputChange={this.onInputChange} 
           onButtonSubmit={this.onButtonSubmit}/>
-        <FaceRecognition imageUrl={this.state.imageUrl}/>
+        <FaceRecognition box={this.state.box}imageUrl={this.state.imageUrl}/>
+        </div>}
       </div>
     )
   }
