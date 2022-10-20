@@ -1,11 +1,17 @@
 import React, { Component } from 'react';
-import ParticlesBg from 'particles-bg'
+import ParticlesBg from 'particles-bg';
+import Clarifai from 'clarifai';
 import Navigation from './Components/Navigation/Navigation'
 import Logo from './Components/Logo/Logo';
 import Rank from './Components/Rank/Rank';
 import ImageLinkForm from './Components/ImageLinkForm/ImageLinkForm';
 import './App.css';
 import 'tachyons';
+
+const app = new Clarifai.App({
+  apiKey: 'c7bc1f881a54483cb53e2e41c46ec73c'
+});
+
 
 class App extends Component {
   constructor() {
@@ -20,6 +26,13 @@ class App extends Component {
 
     onButtonSubmit = () => {
       console.log('click');
+      app.models.predict(Clarifai.FACE_DETECT_MODEL, this.state.input)
+      .then((response) => {
+        console.log(response.outputs[0].data.regions[0].region_info.bounding_box);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
     }
 
   render() {
