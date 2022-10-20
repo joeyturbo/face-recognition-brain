@@ -5,6 +5,7 @@ import Navigation from './Components/Navigation/Navigation'
 import Logo from './Components/Logo/Logo';
 import Rank from './Components/Rank/Rank';
 import ImageLinkForm from './Components/ImageLinkForm/ImageLinkForm';
+import FaceRecognition from './Components/FaceRecognition/FaceRecognition';
 import './App.css';
 import 'tachyons';
 
@@ -17,7 +18,8 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      input: ''
+      input: '',
+      imageUrl: ''
     }
   }
     onInputChange = (event) => {
@@ -25,7 +27,7 @@ class App extends Component {
   }
 
     onButtonSubmit = () => {
-      console.log('click');
+      this.setState({imageUrl: this.state.input})
       app.models.predict(Clarifai.FACE_DETECT_MODEL, this.state.input)
       .then((response) => {
         console.log(response.outputs[0].data.regions[0].region_info.bounding_box);
@@ -45,7 +47,7 @@ class App extends Component {
         <ImageLinkForm 
           onInputChange={this.onInputChange} 
           onButtonSubmit={this.onButtonSubmit}/>
-        {/* <FaceRecognition /> */}
+        <FaceRecognition imageUrl={this.state.imageUrl}/>
       </div>
     )
   }
